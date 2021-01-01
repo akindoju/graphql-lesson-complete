@@ -5,7 +5,7 @@ import {
   removeItemFromCart,
   clearItemFromCart,
   getCartTotal,
-  getCartItemCount
+  getCartItemCount,
 } from './cart.utils';
 
 export const typeDefs = gql`
@@ -67,17 +67,17 @@ const GET_CURRENT_USER = gql`
 const updateCartItemsRelatedQueries = (cache, newCartItems) => {
   cache.writeQuery({
     query: GET_ITEM_COUNT,
-    data: { itemCount: getCartItemCount(newCartItems) }
+    data: { itemCount: getCartItemCount(newCartItems) },
   });
 
   cache.writeQuery({
     query: GET_CART_TOTAL,
-    data: { cartTotal: getCartTotal(newCartItems) }
+    data: { cartTotal: getCartTotal(newCartItems) },
   });
 
   cache.writeQuery({
     query: GET_CART_ITEMS,
-    data: { cartItems: newCartItems }
+    data: { cartItems: newCartItems },
   });
 };
 
@@ -85,12 +85,12 @@ export const resolvers = {
   Mutation: {
     toggleCartHidden: (_root, _args, { cache }) => {
       const { cartHidden } = cache.readQuery({
-        query: GET_CART_HIDDEN
+        query: GET_CART_HIDDEN,
       });
 
       cache.writeQuery({
         query: GET_CART_HIDDEN,
-        data: { cartHidden: !cartHidden }
+        data: { cartHidden: !cartHidden },
       });
 
       return !cartHidden;
@@ -98,7 +98,7 @@ export const resolvers = {
 
     addItemToCart: (_root, { item }, { cache }) => {
       const { cartItems } = cache.readQuery({
-        query: GET_CART_ITEMS
+        query: GET_CART_ITEMS,
       });
 
       const newCartItems = addItemToCart(cartItems, item);
@@ -110,7 +110,7 @@ export const resolvers = {
 
     removeItemFromCart: (_root, { item }, { cache }) => {
       const { cartItems } = cache.readQuery({
-        query: GET_CART_ITEMS
+        query: GET_CART_ITEMS,
       });
 
       const newCartItems = removeItemFromCart(cartItems, item);
@@ -122,7 +122,7 @@ export const resolvers = {
 
     clearItemFromCart: (_root, { item }, { cache }) => {
       const { cartItems } = cache.readQuery({
-        query: GET_CART_ITEMS
+        query: GET_CART_ITEMS,
       });
 
       const newCartItems = clearItemFromCart(cartItems, item);
@@ -135,10 +135,10 @@ export const resolvers = {
     setCurrentUser: (_root, { user }, { cache }) => {
       cache.writeQuery({
         query: GET_CURRENT_USER,
-        data: { currentUser: user }
+        data: { currentUser: user },
       });
 
       return user;
-    }
-  }
+    },
+  },
 };
